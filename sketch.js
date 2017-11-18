@@ -1,8 +1,14 @@
+
+var maze = null;
+
 function setup() {
-	createCanvas(200,200);
-  
+	createCanvas(windowWidth,windowHeight);
+	background(179);
+	maze = new Maze(64,432);
+	maze.initMaze();
 }
 
 function draw() {
-	rect(50,50,50,50);
+	maze.draw();
+	
 }
