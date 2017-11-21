@@ -5,6 +5,7 @@ function Maze(size, seed){
 	this.start = null;
 	this.exit = null;
 	this.current = null;
+	this.unvisitedCells = [];
 	this.stack = [];
 	this.index = function(i, j){
 		if(i < 0 || j < 0 || i > size - 1 || j > size - 1)return -1;
@@ -38,6 +39,7 @@ function Maze(size, seed){
 			return undefined;
 		}
 	};
+	
 	this.removeWalls = function(a,b){
 		var x = a.x - b.x;
 		if(x == 1){
@@ -60,19 +62,7 @@ function Maze(size, seed){
 		for(var i = 0; i < this.cells.length; i++){
 			this.cells[i].draw();
 		}
-		this.current.visit();
-		var next = this.checkNeighbors(this.current.x,this.current.y);
-		if(next){
-			next.visit();
-			this.stack.push(this.current);
-			this.removeWalls(this.current,next);
-			this.current = next;
-		}else if(this.stack.length > 0){
-			this.current = this.stack.pop();
-		}
-	};
-	this.getCell = function(x, y){
-		return cells[this.index(x,y)];
+				
 	};
 	this.initMaze = function(){
 		for(var i = 0; i < this.size; i++){
@@ -82,7 +72,26 @@ function Maze(size, seed){
 		}
 		this.start = this.cells[0];
 		this.exit = this.cells[this.cells.length - 1];
-		this.cells[this.cells.length - 1].color = 'rgb(100,100,0)';
+		this.cells[this.cells.length - 1]
 		this.current = this.start;
+		
+		var uc = this.cells.length - 1;
+		this.current.visit();
+		var next = this.checkNeighbors(this.current.x,this.current.y);
+		while(uc > 0){
+			
+			if(next){
+				next.visit();
+				uc--;
+				this.stack.push(this.current);
+				this.removeWalls(this.current,next);
+				this.current = next;
+			}else if(this.stack.length > 0){
+				this.current = this.stack.pop();
+			}
+			next = this.checkNeighbors(this.current.x,this.current.y);
+		}
+		this.start.color = 'rgb(100,100,200)';
+		this.exit.color = 'rgb(100,100,0)';
 	};
 }
