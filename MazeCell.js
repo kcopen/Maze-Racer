@@ -3,9 +3,6 @@ function MazeCell(x,y, mazeSize){
 	this.y = y;
 	this.mazeSize = mazeSize;
 	this.cellWidth = function(){
-		return windowWidth / this.mazeSize;
-	};
-	this.cellHeight = function(){
 		return windowHeight / this.mazeSize;
 	};
 	this.leftWall = true;
@@ -14,26 +11,33 @@ function MazeCell(x,y, mazeSize){
 	this.bottomWall = true;
 	this.color = 'rgb(0,255,0)';
 	this.visited = false;
+	this.highlight = function(color){
+		this.color = color;
+	}
+	this.visit = function(){
+		this.visited = true;
+		this.color = 'rgb(100,0,100)';
+	};
 	this.draw = function(){
+		if(this.visited === true)this.color = 'rgb(255,0,0)';
 		var xcoord = this.x * this.cellWidth();
-		var ycoord = this.y * this.cellHeight();
+		var ycoord = this.y * this.cellWidth();
 		stroke(this.color);
 		fill(this.color);
-		rect(xcoord, ycoord, this.cellWidth(), this.cellHeight());
+		rect(xcoord, ycoord, this.cellWidth(), this.cellWidth());
 		stroke(255);
 		if(this.leftWall === true){
-			line(xcoord, ycoord, xcoord, ycoord + this.cellHeight());
+			line(xcoord, ycoord, xcoord, ycoord + this.cellWidth());
 		}
 		if(this.rightWall === true){
-			line(xcoord + this.cellWidth(), ycoord, xcoord + this.cellWidth(), ycoord + this.cellHeight());
+			line(xcoord + this.cellWidth(), ycoord, xcoord + this.cellWidth(), ycoord + this.cellWidth());
 		}
 		if(this.topWall === true){
 			line(xcoord, ycoord, xcoord + this.cellWidth(), ycoord);
 		}
 		if(this.bottomWall === true){
-			line(xcoord + this.cellWidth(), ycoord + this.cellHeight(), xcoord + this.cellWidth(), ycoord + this.cellHeight());
+			line(xcoord + this.cellWidth(), ycoord + this.cellWidth(), xcoord + this.cellWidth(), ycoord + this.cellWidth());
 		}
-		
 		
 	};
 }
