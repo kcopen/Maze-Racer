@@ -9,10 +9,6 @@ function MazeCell(x,y, mazeSize){
 	this.rightWall = true;
 	this.topWall = true;
 	this.bottomWall = true;
-	this.topLeftWall = true;
-	this.topRightWall = true;
-	this.bottomLeftWall = true;
-	this.bottomRightWall = true;
 	this.color = 'rgb(0,255,0)';
 	this.visited = false;
 	this.showWalls = false;

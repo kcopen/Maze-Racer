@@ -10,20 +10,16 @@ function setup() {
 
 function keyPressed(){
 	if(keyCode === UP_ARROW){
-		console.log("up");
-		maze.player.playerUp();
+		maze.playerUp();
 	}
 	if(keyCode === DOWN_ARROW){
-		console.log("down");
-		maze.player.playerDown();
+		maze.playerDown();
 	}
 	if(keyCode === LEFT_ARROW){
-		console.log("left");
-		maze.player.playerLeft();
+		maze.playerLeft();
 	}
 	if(keyCode === RIGHT_ARROW){
-		console.log("right");
-		maze.player.playerRight();
+		maze.playerRight();
 	}
 }
 
