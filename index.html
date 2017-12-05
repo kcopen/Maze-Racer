@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
+	<title>Maze Racer</title>
     <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
-    <style> body {padding: 0; margin: 0;} </style>
-    <script src="p5.min.js"></script>
+	
+	<link rel="stylesheet" href="style.css">
+    
+  </head>
+  <body>
+	
+	<script src="p5.min.js"></script>
     <script src="addons/p5.dom.min.js"></script>
 	<script src="MazeCell.js"></script>
 	<script src="Timer.js"></script>
 	<script src="Maze.js"></script>
-    <script src="sketch.js"></script>
-  </head>
-  <body>
+	<script src="Menu.js"></script>
+	<div class="menu">
+	Seed:
+	<input type="number" id="Seed"  min="1" max="999999999" defaultValue="1234">
+	<br>
+	
+	<button type="button" name="NewGameButton" class="menuButton" onclick="newGame()">New Game</button>
+	<br>
+	<button type="button" name="EasyModeButton" class="menuButton" onclick="easyMode()">Easy Mode</button>
+	<br>
+	<button type="button" name="MediumModeButton" class="menuButton" onclick="mediumMode()">Medium Mode</button>
+	<br>
+	<button type="button" name="HardModeButton" class="menuButton" onclick="hardMode()">Hard Mode</button>
+	<br>
+	<button type="button" name="ResetGameButton" class="menuButton" onclick="resetGame()">Reset Game</button>
+	</div>
+	<div class="game">
+	<script src="sketch.js"></script>
+    </div>
+
   </body>
 </html>

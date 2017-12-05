@@ -1,4 +1,6 @@
-
+var EASY = 2;
+var MEDIUM = 1;
+var HARD = 0;
 function Maze(size, seed){
 	this.size = size; //width and height in cell count of the maze
 	this.seed = seed;
@@ -9,8 +11,9 @@ function Maze(size, seed){
 	this.unvisitedCells = [];
 	this.stack = [];
 	this.player = null;
-	this.difficulty = 1;
+	this.difficulty = EASY;
 	this.timer = new Timer();
+	this.completed = false;
 	this.index = function(i, j){
 		if(i < 0 || j < 0 || i > size - 1 || j > size - 1)return -1;
 		return i + j * this.size;
@@ -20,24 +23,25 @@ function Maze(size, seed){
 	this.playerY = 0;
 	this.playerUp = function(){
 		this.hasMoved = true;
-		if(this.playerY > 0 && this.cells[this.index(this.playerX,this.playerY)].topWall === false)this.playerY--;
+		if(!this.completed && this.cells[this.index(this.playerX,this.playerY)].topWall === false)this.playerY--;
 	};
 	this.playerDown = function(){
 		this.hasMoved = true;
-		if(this.playerY < this.size - 1 && this.cells[this.index(this.playerX,this.playerY)].bottomWall === false)this.playerY++;
+		if(!this.completed && this.cells[this.index(this.playerX,this.playerY)].bottomWall === false)this.playerY++;
 	};
 	this.playerLeft = function(){
 		this.hasMoved = true;
-		if(this.playerX > 0 && this.cells[this.index(this.playerX,this.playerY)].leftWall === false)this.playerX--;
+		if(!this.completed && this.cells[this.index(this.playerX,this.playerY)].leftWall === false)this.playerX--;
 	};
 	this.playerRight = function(){
 		this.hasMoved = true;
-		if(this.playerX < this.size - 1 && this.cells[this.index(this.playerX,this.playerY)].rightWall === false)this.playerX++;
+		if(!this.completed && this.cells[this.index(this.playerX,this.playerY)].rightWall === false)this.playerX++;
 	};
 	this.inCamera = function(x,y){
-		if(x >= this.playerX - 1 && x <= this.playerX + 1 && y >= this.playerY - 1 && y <= this.playerY + 1)return true;
+		var cameraSize = 1 + this.difficulty;
+		if(x >= this.playerX - cameraSize && x <= this.playerX + cameraSize && y >= this.playerY - cameraSize && y <= this.playerY + cameraSize)return true;
 		return false;
-	}
+	};
 	
 	
 	this.checkNeighbors = function(i, j){
@@ -95,11 +99,13 @@ function Maze(size, seed){
 				this.timer.startTimer();
 			}
 		}
-		if(this.playerX === this.exit.x && this.playerY === this.exit.y && this.timer.stopTime === 0 && this.timer.startTime != 0)this.timer.stopTimer();
+		if(this.playerX === this.exit.x && this.playerY === this.exit.y && this.timer.stopTime === 0 && this.timer.startTime != 0){
+			this.completeMaze();
+		}
 		for(var i = 0; i < this.cells.length; i++){	
 			if(!this.inCamera(this.cells[i].x, this.cells[i].y)){
 				this.cells[i].highlight('rgb(0,0,0)');
-				if(!(this.difficulty > 0)){
+				if(!(this.difficulty > MEDIUM)){
 					this.cells[i].showWalls = false;
 				}
 			}else {
@@ -116,10 +122,16 @@ function Maze(size, seed){
 		this.start.draw();
 		this.exit.highlight('rgb(0,0,0)');
 		this.exit.draw();
-		this.timer.draw(5,5);
-				
+		this.timer.draw(windowHeight - 10,10);
+		if(this.completed){
+			textSize(32);
+			textAlign(CENTER, BOTTOM);
+			fill(255);
+			text("Your time was!\n" + this.timer.displayStoppedTime() + "\nSeed: "  + this.seed, windowHeight / 2, windowHeight / 2);
+		}	
 	};
 	this.initMaze = function(){
+		randomSeed(seed);
 		for(var i = 0; i < this.size; i++){
 			for(var j = 0; j < this.size; j++){
 				this.cells[this.index(i,j)] = new MazeCell(i, j, this.size);
@@ -151,5 +163,9 @@ function Maze(size, seed){
 		this.playerX = this.start.x;
 		this.playerY = this.start.y;
 		
+	};
+	this.completeMaze = function(){
+		this.timer.stopTimer();
+		this.completed = true;
 	};
 }

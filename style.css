@@ -1,0 +1,25 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display:static;
+  background-color: rgb(51, 102, 0);
+  justify-content: center;
+align-items: center;
+  
+  
+  
+  
+  
+}
+.menuButton{
+	  background-color: purple;
+	  color: white;
+	  text-align: center;
+  }
+.game{
+	margin: auto;
+	width: 50%;
+ }
