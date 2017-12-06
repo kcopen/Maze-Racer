@@ -35,68 +35,7 @@
 	<br>
 	<button type="button" name="HardModeButton" class="menuButton" onclick="hardMode()">Hard Mode</button>
 	</div>
-	<?php
-include 'dbconnect.php';
-
-function addUser($username, $password){
-	$conn = OpenCon();
-
-	$sql = "INSERT INTO userprofiles (username, password) VALUES ('" . $username . "', '" . $password . "')";
-	if ($conn->query($sql) === TRUE)
-		echo "It worked";
-	else
-		echo "It didn't work";
-	CloseCon($conn);
-
-}
-
-function addUserRecord($username, $seed, $time){
-	$conn = OpenCon();
-
-	$sql = "INSERT INTO userrecords (username, seed, bestTime) VALUES ('" . $username . "', '" . $seed . "', '" . $time . "')";
-	if ($conn->query($sql) === TRUE)
-		echo "It worked";
-	else
-		echo "It didn't work";
-	CloseCon($conn);
-}
-
-function addGlobalRecord($seed, $username, $time){
-	$conn = OpenCon();
-
-	$sql = "INSERT INTO seedglobalrecords (seed, username, time) VALUES ('" . $seed . "', '" . $username . "', '" . $time . "')";
-	if($conn->query($sql) === FALSE){
-		$sql = "UPDATE seedglobalrecords SET username=" . $username . ", time=" . $time . " WHERE seed=" . $seed;
-		if ($conn->query($sql) === TRUE)
-			echo "It worked";
-		else
-			echo "It didn't work";
-	}
-		
-	CloseCon($conn);
-}
-
-function getSeedRecord($seed){
-	$conn = OpenCon();
-
-	$sql = "SELECT username, time FROM seedglobalrecords WHERE seed=" . $seed;
-	$result = mysqli_query($conn, $sql);
 	
-	if (mysqli_num_rows($result) > 0){
-		
-		$row = mysqli_fetch_assoc($result);
-		echo "seed: " . $seed . " username: " . $row["username"] . " time: " . $row["time"];
-	}
-	else
-		echo "It didn't work";
-	CloseCon($conn);
-}
-
-addGlobalRecord(87634,"jim", 661);
-getSeedRecord(87644);
-getSeedRecord(87634);
-
-?>
 
   </body>
 </html>
