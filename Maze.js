@@ -37,7 +37,7 @@ function Maze(size, seed){
 		this.hasMoved = true;
 		if(!this.completed && this.cells[this.index(this.playerX,this.playerY)].rightWall === false)this.playerX++;
 	};
-	this.inCamera = function(x,y){
+	this.inSight = function(x,y){
 		var cameraSize = 1 + this.difficulty;
 		if(x >= this.playerX - cameraSize && x <= this.playerX + cameraSize && y >= this.playerY - cameraSize && y <= this.playerY + cameraSize)return true;
 		return false;
@@ -102,15 +102,15 @@ function Maze(size, seed){
 		if(this.playerX === this.exit.x && this.playerY === this.exit.y && this.timer.stopTime === 0 && this.timer.startTime != 0){
 			this.completeMaze();
 		}
-		for(var i = 0; i < this.cells.length; i++){	
-			if(!this.inCamera(this.cells[i].x, this.cells[i].y)){
+		for(var i = 0; i < this.cells.length; i++){
+			if(this.inSight(this.cells[i].x, this.cells[i].y)){
+				this.cells[i].highlight('rgb(100,0,100)');
+				this.cells[i].showWalls = true;
+			}else{
 				this.cells[i].highlight('rgb(0,0,0)');
 				if(!(this.difficulty > MEDIUM)){
 					this.cells[i].showWalls = false;
 				}
-			}else {
-				this.cells[i].highlight('rgb(100,0,100)');
-				this.cells[i].showWalls = true;
 			}
 			if(this.cells[i].x === this.playerX && this.cells[i].y === this.playerY){
 				this.cells[i].highlight('rgb(0,95,99)');
@@ -118,16 +118,16 @@ function Maze(size, seed){
 			this.cells[i].draw();
 			
 		}
-		this.start.highlight('rgb(0,0,0)');
+		this.start.highlight('rgb(100,100,100)');
 		this.start.draw();
-		this.exit.highlight('rgb(0,0,0)');
+		this.exit.highlight('rgb(0,0,100)');
 		this.exit.draw();
-		this.timer.draw(windowHeight - 10,10);
+		this.timer.draw(width - 10,10);
 		if(this.completed){
 			textSize(32);
 			textAlign(CENTER, BOTTOM);
 			fill(255);
-			text("Your time was!\n" + this.timer.displayStoppedTime() + "\nSeed: "  + this.seed, windowHeight / 2, windowHeight / 2);
+			text("Your time was!\n" + this.timer.displayStoppedTime() + "\nSeed: "  + this.seed, width / 2, width / 2);
 		}	
 	};
 	this.initMaze = function(){
@@ -139,7 +139,6 @@ function Maze(size, seed){
 		}
 		this.start = this.cells[0];
 		this.exit = this.cells[this.cells.length - 1];
-		this.cells[this.cells.length - 1]
 		this.current = this.start;
 		
 		var uc = this.cells.length - 1;
@@ -167,5 +166,6 @@ function Maze(size, seed){
 	this.completeMaze = function(){
 		this.timer.stopTimer();
 		this.completed = true;
+		
 	};
 }

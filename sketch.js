@@ -1,20 +1,20 @@
 function setup() {
-	createCanvas(windowHeight,windowHeight);
+	createCanvas(windowHeight - 1,windowHeight - 1);
 	background(179);
 	newGame();
 }
 
 function keyPressed(){
-	if(keyCode === UP_ARROW){
+	if(key === 'W' || keyCode === UP_ARROW){
 		maze.playerUp();
 	}
-	if(keyCode === DOWN_ARROW){
+	if(key === 'S' || keyCode === DOWN_ARROW){
 		maze.playerDown();
 	}
-	if(keyCode === LEFT_ARROW){
+	if(key === 'A' || keyCode === LEFT_ARROW){
 		maze.playerLeft();
 	}
-	if(keyCode === RIGHT_ARROW){
+	if(key === 'D' || keyCode === RIGHT_ARROW){
 		maze.playerRight();
 	}
 }

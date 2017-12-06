@@ -3,7 +3,7 @@ function MazeCell(x,y, mazeSize){
 	this.y = y;
 	this.mazeSize = mazeSize;
 	this.cellWidth = function(){
-		return windowHeight / this.mazeSize;
+		return width / this.mazeSize;
 	};
 	this.leftWall = true;
 	this.rightWall = true;
